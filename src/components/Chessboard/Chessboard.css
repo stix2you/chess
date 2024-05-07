@@ -12,10 +12,3 @@
    height: 90px;
 }
 
-#chessboard .white-tile {
-   background-color: #ebecd0;
-}
-
-#chessboard .black-tile {
-   background-color: rgb(56, 179, 166);
-}
