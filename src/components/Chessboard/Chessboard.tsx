@@ -39,7 +39,7 @@ pieces.push({ image: "./assets/img/king_black.png", x: 4, y: 7 });
 
 
 export default function Chessboard() {
-   const chessboardRef = useRef(null);
+   const chessboardRef = useRef<HTMLDivElement>(null);
 
    let board = [];
 
@@ -59,12 +59,37 @@ export default function Chessboard() {
    }
 
    function movePiece(e: React.MouseEvent) {
-      if (activePiece) {
+      const chessboard = chessboardRef.current;
+      if (activePiece && chessboard) {
+         const minX = chessboard.offsetLeft - 40;
+         const minY = chessboard.offsetTop - 40;
+         const maxX = chessboard.offsetLeft + chessboard.clientWidth - 50;
+         const maxY = chessboard.offsetTop + chessboard.clientHeight - 50;
          const x = e.clientX - 45;
          const y = e.clientY - 45;
          activePiece.style.position = 'absolute';
-         activePiece.style.left = `${x}px`;
-         activePiece.style.top = `${y}px`;
+
+         // Check if the piece is within the chessboard, if not, set the position to the edge of the chessboard
+         if (x < minX) {                           // If the piece is outside the chessboard on the left side
+            activePiece.style.left = `${minX}px`;  // Set the left position to the left edge of the chessboard
+         } else if (x > maxX) {                    // If the piece is outside the chessboard on the right side
+            activePiece.style.left = `${maxX}px`;  // Set the left position to the right edge of the chessboard
+         } else {
+            activePiece.style.left = `${x}px`;     // Otherwise, set the left position to the current mouse position
+         }
+         if (y < minY) {                           // If the piece is outside the chessboard on the top side
+            activePiece.style.top = `${minY}px`;   // Set the top position to the top edge of the chessboard
+         } else if (y > maxY) {                    // If the piece is outside the chessboard on the bottom side         
+            activePiece.style.top = `${maxY}px`;   // Set the top position to the bottom edge of the chessboard
+         } else {
+            activePiece.style.top = `${y}px`;      // Otherwise, set the top position to the current mouse position
+         }
+         activePiece.style.zIndex = '1000';
+
+
+
+
+
       }
 
 
