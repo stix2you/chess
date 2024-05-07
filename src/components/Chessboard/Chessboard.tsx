@@ -39,12 +39,11 @@ pieces.push({ image: "./assets/img/king_black.png", x: 4, y: 7 });
 
 
 export default function Chessboard() {
-   const chessboardRef = useRef<HTMLDivElement>(null);
+   const chessboardRef = useRef<HTMLDivElement>(null);  // Create a reference to the chessboard div element
+   let board = [];  // The board array will contain the Tile components
+   let activePiece: HTMLElement | null = null;  // The activePiece variable will store the piece that is being dragged
 
-   let board = [];
-
-   let activePiece: HTMLElement | null = null;
-
+   // Grab the piece that is being clicked
    function grabPiece(e: React.MouseEvent) {
       const element = e.target as HTMLElement;
       if (element.classList.contains('chess-piece')) {
@@ -53,11 +52,11 @@ export default function Chessboard() {
          element.style.position = 'absolute';
          element.style.left = `${x}px`;
          element.style.top = `${y}px`;
-
          activePiece = element;
       }
    }
 
+   // Move the piece to the mouse position
    function movePiece(e: React.MouseEvent) {
       const chessboard = chessboardRef.current;
       if (activePiece && chessboard) {
@@ -84,16 +83,10 @@ export default function Chessboard() {
          } else {
             activePiece.style.top = `${y}px`;      // Otherwise, set the top position to the current mouse position
          }
-         activePiece.style.zIndex = '1000';
-
-
-
-
-
       }
-
-
    }
+
+   // Create the chessboard
    for (let j = verticalAxis.length - 1; j >= 0; j--) {
       for (let i = 0; i < horizontalAxis.length; i++) {
          const number = j + i + 2;
